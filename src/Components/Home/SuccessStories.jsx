@@ -6,7 +6,7 @@ const SuccessStories = () => {
       <h1 className="text-3xl font-bold text-center my-10">
         OUR SUCCESS <span className="text-[#18c4cc]">STORIES</span>
       </h1>
-      <div className="grid grid-cols-3 my-10 gap-7 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 ml-4 my-10 gap-7 max-w-6xl mx-auto md:grid-cols-2 md:mx-auto lg:grid-cols-3 lg:mx-auto">
         {/* card-1 */}
         <div>
           <Card className="max-w-sm ">

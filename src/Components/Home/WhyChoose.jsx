@@ -2,13 +2,12 @@ import { FaCheckSquare } from "react-icons/fa";
 const WhyChoose = () => {
   return (
     <div>
-      <div className="grid grid-cols-2 my-10 gap-7 max-w-6xl mx-auto mt-16">
+      <h1 className="text-xl text-center font-bold  my-10 md:text-2xl lg:text-3xl">
+        Why choose <span className="text-[#18c4cc]">Bondhon.com</span>
+      </h1>
+      <div className="grid grid-cols-1 my-10 gap-7 max-w-6xl mx-auto mt-16 md:grid-cols-2 lg:grid-cols-2">
         <div>
-          <h1 className="text-3xl font-bold text-left my-10">
-            Why choose <span className="text-[#18c4cc]">Bondhon.com</span>
-          </h1>
-
-          <div>
+          <div className="ml-3">
             <div className="flex items-center ">
               <div>
                 {" "}

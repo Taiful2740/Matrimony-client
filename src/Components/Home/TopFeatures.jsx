@@ -4,7 +4,7 @@ const TopFeatures = () => {
   return (
     <>
       <h1 className="text-3xl font-bold text-center my-10">TOP FEATURES</h1>
-      <div className="grid grid-cols-4 my-10 gap-7 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 ml-20 my-10 gap-7 max-w-6xl mx-auto md:grid-cols-2 lg:grid-cols-4">
         {/* card-1 */}
         <div>
           <Card className=" w-[235px] h-[332px] ">
