@@ -1,63 +1,60 @@
 import { Card, Checkbox, Label, TextInput } from "flowbite-react";
 import { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import swal from "sweetalert";
-import Swal from "sweetalert2";
+import { useForm } from "react-hook-form";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 
+import useAxiosPublic from "../Hooks/UseAxiosPublic";
+import Swal from "sweetalert2";
+
 const SignUp = () => {
-  const { createUser, profileUpdate } = useContext(AuthContext);
-  const location = useLocation();
+  const axiosPublic = useAxiosPublic();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+  const { createUser, updateUserProfile } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const handleSignUp = e => {
-    e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const photo = e.target.photo.value;
+  const onSubmit = data => {
+    console.log(data);
+    createUser(data.email, data.password).then(result => {
+      const loggedUser = result.user;
+      console.log(loggedUser);
+      updateUserProfile(data.name, data.photoURL)
+        .then(() => {
+          // create user entry in the database
+          const userInfo = {
+            name: data.name,
+            email: data.email,
+          };
 
-    console.log(name, email, password);
+          axiosPublic.post("/users", userInfo).then(res => {
+            if (res.data.insertedId) {
+              console.log("user added database");
+              reset();
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "User  created successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
+          });
+        })
 
-    if (password.length < 6) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Password must be least 6 characters!",
-        footer: '<a href="">Why do I have this issue?</a>',
-      });
-      return;
-    } else if (
-      !/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/.test(password)
-    ) {
-      swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Should be uppercase & special characters!",
-        footer: '<a href="">Why do I have this issue?</a>',
-      });
-      return;
-    }
-
-    // create user in firebase
-    createUser(email, password)
-      .then(result => {
-        if (result.user) {
-          swal("Good job!", "User Created Successfully!", "success");
-          profileUpdate({ displayName: name, photoURL: photo });
-        }
-        e.target.reset("");
-        navigate(location?.state ? location?.state : "/");
-      })
-      .catch(error => {
-        console.log(error.message);
-      });
+        .catch(error => console.error(error));
+    });
   };
   return (
     <div className="flex justify-center mt-10 ">
       <Card className="w-1/3  ">
         <h1 className="text-center text-3xl font-bold">Sign Up Now!</h1>
-        <form onSubmit={handleSignUp} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div>
             <div className="mb-2 block">
               <Label htmlFor="name" value="Your Name" />
@@ -66,9 +63,12 @@ const SignUp = () => {
               id="name"
               type="text"
               placeholder="your name"
+              {...register("name", { required: true })}
               name="name"
-              required
             />
+            {errors.name && (
+              <span className="text-red-600">Name is required</span>
+            )}
           </div>
           <div>
             <div className="mb-2 block">
@@ -78,9 +78,12 @@ const SignUp = () => {
               id="email1"
               type="email"
               placeholder="name@example.com"
+              {...register("email", { required: true })}
               name="email"
-              required
             />
+            {errors.email && (
+              <span className="text-red-600">email is required</span>
+            )}
           </div>
           <div>
             <div className="mb-2 block">
@@ -90,9 +93,12 @@ const SignUp = () => {
               id="password1"
               type="password"
               placeholder="******"
+              {...register("password", { required: true })}
               name="password"
-              required
             />
+            {errors.password && (
+              <span className="text-red-600">Password is required</span>
+            )}
           </div>
           <div>
             <div className="mb-2 block">
@@ -102,9 +108,12 @@ const SignUp = () => {
               id="photoURL"
               type="text"
               placeholder="photoURL"
+              {...register("photo", { required: true })}
               name="photo"
-              required
             />
+            {errors.photo && (
+              <span className="text-red-600">Photo is required</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <Checkbox id="remember" />

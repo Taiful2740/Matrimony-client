@@ -64,7 +64,7 @@ const NavBar = () => {
             </NavLink>
             <NavLink
               className="text-black hover:bg-[#18c4cc] px-2 pb-2 hover:text-white rounded-full"
-              to="/biodata"
+              to="/userProfile"
             >
               Biodatas
             </NavLink>

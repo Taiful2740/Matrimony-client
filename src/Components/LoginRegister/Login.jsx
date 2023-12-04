@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
 import Swal from "sweetalert2";
 import { FaGoogle } from "react-icons/fa";
+import swal from "sweetalert";
 
 const Login = () => {
   const { signInUser, signInWithGoogle } = useContext(AuthContext);
@@ -19,7 +20,7 @@ const Login = () => {
     signInUser(email, password)
       .then(result => {
         console.log(result.user);
-        Swal("Good job!", "Login Successfully!", "success");
+        Swal.fire("Good job!", "Login Successfully!", "success");
         if (result.user) {
           navigate(location?.state ? location?.state : "/");
         }
@@ -27,7 +28,6 @@ const Login = () => {
       })
       .catch(error => {
         console.log(error.message);
-        alert(error.message);
         swal.fire({
           icon: "error",
           title: "Oops...",
@@ -41,7 +41,7 @@ const Login = () => {
       .then(result => {
         navigate(location?.state ? location?.state : "/");
         console.log(result.user);
-        Swal("Good job!", "Login Successfully!", "success");
+        Swal.fire("Good job!", "Login Successfully!", "success");
       })
       .catch(error => {
         console.log(error.message);
