@@ -1,5 +1,9 @@
 <a href="https://extraordinary-croissant-55d465.netlify.app/">Live Link</a>
 
+<a href="https://github.com/Taiful2740/Matrimony-server">Server side Link</a>
+
+Technology Used: Rect.js, Node.js, Express.js, Mongodb, Tailwind Css, Firebase
+
 1. User Profiles:
 
 Allow users to create detailed profiles with information such as personal details, education, occupation, and family background.
